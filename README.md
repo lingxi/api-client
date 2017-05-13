@@ -49,6 +49,8 @@ $apiClient->setBaseUri($apiOptions['base_uri'])
 ```php
 // 获取 Http 响应码
 $apiClient->get($uri, $param)->getResponseCode();
+// 获取 Http 响应对象。返回 GuzzleHttp\Psr7\Response 的实例
+$apiClient->get($uri, $param)->getResponseCode();
 ```
 #### 获取最后一次请求的 URL
 ```php
