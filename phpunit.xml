@@ -11,13 +11,16 @@
          stopOnFailure="false"
          syntaxCheck="false">
     <testsuites>
-        <testsuite name="Test Suite">
+        <testsuite name="Package Test Suite">
             <directory suffix=".php">./tests/</directory>
         </testsuite>
     </testsuites>
     <filter>
        <whitelist>
-           <directory suffix=".php">src/</directory>
+           <directory suffix=".php">./src/</directory>
+           <exclude>
+               <directory>./src/Exceptions</directory>
+           </exclude>
        </whitelist>
    </filter>
 </phpunit>

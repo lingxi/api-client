@@ -1,13 +1,13 @@
 <?php
 
-namespace Lingxi\WechatPusherApiClient;
+namespace Lingxi\ApiClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\TransferStats;
 use Lingxi\Signature\Authenticator;
-use Lingxi\WechatPusherApiClient\Exceptions\ApiClientInitException;
-use Lingxi\WechatPusherApiClient\Exceptions\ResponseDataParseException;
+use Lingxi\ApiClient\Exceptions\ApiClientInitException;
+use Lingxi\ApiClient\Exceptions\ResponseDataParseException;
 
 /**
  * Class ApiClient
@@ -244,7 +244,7 @@ class ApiClient
      *
      * @return mixed|null
      */
-    public function get($uri, $query)
+    public function get($uri, $query = [])
     {
         return $this->request('GET', $uri, $query);
     }
@@ -276,6 +276,60 @@ class ApiClient
     }
 
     /**
+     * Call a delete Request
+     *
+     * @param string $uri
+     * @param array  $query
+     *
+     * @return ApiClient
+     */
+    public function delete($uri, $query = [])
+    {
+        return $this->request('DELETE', $uri, $query);
+    }
+
+    /**
+     * Call a head Request
+     *
+     * @param string $uri
+     * @param array  $query
+     *
+     * @return ApiClient
+     */
+    public function head($uri, $query = [])
+    {
+        return $this->request('HEAD', $uri, $query);
+    }
+
+    /**
+     * Call a options Request
+     *
+     * @param string $uri
+     * @param array  $query
+     *
+     * @return ApiClient
+     */
+    public function options($uri, $query = [])
+    {
+        return $this->request('OPTIONS', $uri, $query);
+    }
+
+    /**
+     * Call a patch Request
+     *
+     * @param string $uri
+     * @param array  $data
+     *
+     * @return ApiClient
+     */
+    public function patch($uri, $data = [])
+    {
+        return $this->request('PATCH', $uri, $data);
+    }
+
+    /**
+     * Call a Request
+     *
      * @param string $method
      * @param string $uri
      * @param array  $optionals

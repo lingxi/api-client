@@ -1,10 +1,10 @@
 <?php
 
-namespace Lingxi\WechatPusherApiClient\Exceptions;
+namespace Lingxi\ApiClient\Exceptions;
 
 /**
  * Class ApiClientRequestException
- * @package Lingxi\WechatPusherApiClient\Exceptions
+ * @package Lingxi\ApiClient\Exceptions
  */
 class ApiClientRequestException extends \Exception
 {
