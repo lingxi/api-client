@@ -15,7 +15,7 @@ composer require lingxi/api-client
 
 ### Feature
 - 灵析 api 接口自动验证
-- 支持接口参数自动替换。类似 Laravel 的路由参数替换。
+- 支持接口参数自动替换。类似 Laravel 的路由参数替换。请求 uri 中 {user_id} 会被 $query\['user_id'] 的值替换
 
 ### 用法
 
@@ -50,16 +50,23 @@ $apiClient->setBaseUri($apiOptions['base_uri'])
 ```
 #### 基本操作
 ```php
-// 获取 Http 响应码
-$apiClient->get($uri, $param)->getResponseCode();
 // 获取 Http 响应对象。返回 GuzzleHttp\Psr7\Response 的实例
-$apiClient->get($uri, $param)->getResponse();
+$apiClient->get($uri, $query)->getResponse();
+// post 操作
+$apiClient->post($uri, $data)->getResponse();
+// put 操作
+$apiClient->put($uri, $data)->getResponse();
+// delete 操作
+$apiClient->delete($uri, $data)->getResponse();
+// patch 操作
+$apiClient->patch($uri, $data)->getResponse();
+// 发起一个请求。$method 为 HTTP 请求动词 
+$apiClient->request($method, $uri, $data)->getResponse();
 // 获取 api 返回的数据
-$apiClient->get($uri, $param)->getResponseData();
-```
-#### 获取最后一次请求的 URL
-```php
-$apiClient->getLastUrl();
+$apiClient->get($uri, $query)->getResponseData();
+// 获取 Http 响应码
+$apiClient->get($uri, $query)->getResponseCode();
+// 获取最后一次请求的 URL
 $apiClient->getLastUrl();
 ```
 

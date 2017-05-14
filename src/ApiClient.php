@@ -289,32 +289,6 @@ class ApiClient
     }
 
     /**
-     * Call a head Request
-     *
-     * @param string $uri
-     * @param array  $query
-     *
-     * @return ApiClient
-     */
-    public function head($uri, $query = [])
-    {
-        return $this->request('HEAD', $uri, $query);
-    }
-
-    /**
-     * Call a options Request
-     *
-     * @param string $uri
-     * @param array  $query
-     *
-     * @return ApiClient
-     */
-    public function options($uri, $query = [])
-    {
-        return $this->request('OPTIONS', $uri, $query);
-    }
-
-    /**
      * Call a patch Request
      *
      * @param string $uri
