@@ -23,9 +23,9 @@ composer require lingxi/api-client
 > 全部参数都可以使用 Setter 方法设置。即不需要再实例化的时候传递参数。
 ```php
 $apiOptions = [
-    'base_uri'    => 'http://apixtest.lingxi360.com',
-    'api_key'     => '5HQDDYDl1',
-    'api_secret'  => 'NsqNx2Plv8eI1xwjr9QuCm6rl0nfThrk',
+    'base_uri'    => 'http://api.lingxi360.com',
+    'api_key'     => 'api_key',
+    'api_secret'  => 'api_secret',
 ];
 $apiClient = new ApiClient($apiOptions);
 ```
