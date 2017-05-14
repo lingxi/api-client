@@ -31,10 +31,12 @@ class ApiClient
      * @var mixed|string
      */
     protected $apiKey;
+
     /**
      * @var mixed|string
      */
     protected $apiSecret;
+
     /**
      * @var mixed|string
      */
@@ -58,7 +60,7 @@ class ApiClient
     /**
      * @var null
      */
-    protected $lastUrl = null;
+    protected $lastUrl = '';
 
     /**
      * ApiClient constructor.
@@ -125,6 +127,16 @@ class ApiClient
     }
 
     /**
+     * 设置 api key
+     *
+     * @param mixed|string $apiKey
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+    }
+
+    /**
      * 获取 api secret
      *
      * @return string
@@ -132,6 +144,16 @@ class ApiClient
     public function getApiSecret()
     {
         return $this->apiSecret;
+    }
+
+    /**
+     * 设置 api secret
+     *
+     * @param mixed|string $apiSecret
+     */
+    public function setApiSecret($apiSecret)
+    {
+        $this->apiSecret = $apiSecret;
     }
 
     /**
@@ -312,9 +334,9 @@ class ApiClient
      */
     public function request($method, $uri, $optionals = [])
     {
-        $options = $this->extractOptionalParameters($uri, $optionals);
-        $uri     = $this->compileRoute($uri, $optionals);
-
+        $options   = $this->extractOptionalParameters($uri, $optionals);
+        $uri       = $this->compileRoute($uri, $optionals);
+        $data      = [];
         $method    = strtoupper($method);
         $paramType = $method === 'GET' ? 'query' : 'form_params';
         if (key_exists('json', $options)) {

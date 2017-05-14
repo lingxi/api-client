@@ -16,6 +16,10 @@ class ExceptionTest extends \PHPUnit_Framework_TestCase
     public function testApiClientInitException()
     {
         $apiClient = new ApiClient();
+        $apiClient->getHttpClient();
+        $apiClient->get('/test/fun');
+        $apiClient->setApiKey('111');
         $apiClient->get('/test/fun');
     }
+
 }

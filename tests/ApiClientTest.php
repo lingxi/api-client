@@ -35,6 +35,10 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('v3', $apiClient->getApiVersion());
         $apiClient->setOutTime(5.0);
         $this->assertEquals(5.0, $apiClient->getOutTime());
+        $apiClient->setApiKey('11111');
+        $this->assertEquals('11111', $apiClient->getApiKey());
+        $apiClient->setApiSecret('22222');
+        $this->assertEquals('22222', $apiClient->getApiSecret());
     }
 
     public function testGetLastUrl()
@@ -80,6 +84,10 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
         $options = [
             'contact_id' => 1000,
             'from'       => 'contact',
+            'to'         => [
+                'cc' => '100',
+                'd'  => 10000,
+            ],
         ];
         $options = $this->apiClient->standardizeParam($options);
         collect($options)->each(function ($key, $value) {
