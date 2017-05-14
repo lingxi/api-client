@@ -1,6 +1,10 @@
 # api-client
 灵析 Api 通用 Client，基于 guzzlehttp/guzzle 实现
 
+[![Build Status](https://travis-ci.org/LingxiTeam/api-client.svg?branch=master)](https://travis-ci.org/LingxiTeam/api-client)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/LingxiTeam/api-client/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/LingxiTeam/api-client/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/LingxiTeam/api-client/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/LingxiTeam/api-client/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/LingxiTeam/api-client/badges/build.png?b=master)](https://scrutinizer-ci.com/g/LingxiTeam/api-client/build-status/master)
 ### 安装
 
 composer.json 中添加
@@ -39,7 +43,6 @@ $apiClient = new ApiClient($apiOptions);
 ```php
 $apiClient  = new ApiClient();
 $apiClient->setBaseUri($apiOptions['base_uri'])
-    ->setApiType($apiOptions['api_version'])
     ->setApiVersion($apiOptions['api_version'])
     ->setConsumer($apiOptions['api_key'], $apiOptions['api_secret'])
     ->setApiType($apiOptions['api_type'])
@@ -50,20 +53,20 @@ $apiClient->setBaseUri($apiOptions['base_uri'])
 // 获取 Http 响应码
 $apiClient->get($uri, $param)->getResponseCode();
 // 获取 Http 响应对象。返回 GuzzleHttp\Psr7\Response 的实例
-$apiClient->get($uri, $param)->getResponseCode();
+$apiClient->get($uri, $param)->getResponse();
+// 获取 api 返回的数据
+$apiClient->get($uri, $param)->getResponseData();
 ```
 #### 获取最后一次请求的 URL
 ```php
 $apiClient->getLastUrl();
+$apiClient->getLastUrl();
 ```
-#### 获取响应数据
 
 #### Getter
 ```php
 $apiClient->getBaseUri();
-$apiClient->getApiType();
 $apiClient->getApiVersion();
-$apiClient->getApiType();
 $apiClient->getOutTime();
 $apiClient->getApiKey();
 $apiClient->getApiSecret();
@@ -71,11 +74,10 @@ $apiClient->getApiSecret();
 #### Setter
 ```php
 $apiClient->setBaseUri();
-$apiClient->setApiType();
+$apiClient->setBaseUri();
 $apiClient->setApiVersion();
-$apiClient->setApiType();
 $apiClient->setOutTime();
-$apiClient->setApiKey();
-$apiClient->setApiSecret();
 ```
+## License
+MIT
 
