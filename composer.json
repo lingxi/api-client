@@ -1,5 +1,6 @@
 {
   "name": "lingxi/api-client",
+  "description": "lingxi common api client",
   "authors": [
     {
       "name": "Feyman",
@@ -8,7 +9,7 @@
   ],
   "type": "library",
   "require": {
-    "php": "^5.6",
+    "php": ">=5.6",
     "guzzlehttp/guzzle": "^6.2",
     "lingxi/api-authentication": "^0.0.7"
   },
