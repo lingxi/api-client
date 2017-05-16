@@ -4,10 +4,12 @@ namespace Lingxi\ApiClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\TransferStats;
-use Lingxi\Signature\Authenticator;
 use Lingxi\ApiClient\Exceptions\ApiClientInitException;
 use Lingxi\ApiClient\Exceptions\ResponseDataParseException;
+use Lingxi\Signature\Authenticator;
 
 /**
  * Class ApiClient
@@ -331,6 +333,7 @@ class ApiClient
      * @param array  $optionals
      *
      * @return $this
+     * @throws \Exception
      */
     public function request($method, $uri, $optionals = [])
     {
@@ -351,7 +354,17 @@ class ApiClient
         if ($this->apiVersion) {
             $uri = $this->apiVersion . $uri;
         }
-        $this->response = $this->getHttpClient()->request($method, $uri, $data);
+        try {
+            $this->response = $this->getHttpClient()->request($method, $uri, $data);
+        } catch (ClientException $e) {
+            $this->response = $e->getResponse();
+        } catch (RequestException $e) {
+            if ($e->hasResponse()) {
+                $this->response = $e->getResponse();
+            }
+        } catch (\Exception $e) {
+            throw $e;
+        }
 
         return $this;
     }
