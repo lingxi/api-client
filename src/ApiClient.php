@@ -52,6 +52,10 @@ class ApiClient
      */
     protected $response;
     /**
+     * @var array
+     */
+    protected $requestData;
+    /**
      * @var int
      */
     protected $responseCode;
@@ -221,6 +225,15 @@ class ApiClient
     }
 
     /**
+     * 获取请求的数据
+     * @return array
+     */
+    public function getRequestData()
+    {
+        return $this->requestData;
+    }
+
+    /**
      * @return mixed
      * @throws ResponseDataParseException
      */
@@ -244,6 +257,7 @@ class ApiClient
     {
         return $this->response;
     }
+
     /**
      * @return \GuzzleHttp\Psr7\Request
      */
@@ -366,9 +380,10 @@ class ApiClient
             $uri = $this->apiVersion . $uri;
         }
         try {
+            $this->requestData = $data;
             $this->response = $this->getHttpClient()->request($method, $uri, $data);
         } catch (ClientException $e) {
-            $this->request = $e->getRequest();
+            $this->request  = $e->getRequest();
             $this->response = $e->getResponse();
         } catch (RequestException $e) {
             $this->request = $e->getRequest();
