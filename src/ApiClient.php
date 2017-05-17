@@ -371,16 +371,17 @@ class ApiClient
             $json = $options['json'];
             unset($options['json']);
             $data['json'] = $json;
+            $paramType    = 'query';
         }
-        $data[$paramType] = $this->getAuthParams($options);
-        $data['on_stats'] = function (TransferStats $stats) {
+        $data[$paramType]  = $this->getAuthParams($options);
+        $this->requestData = $data;
+        $data['on_stats']  = function (TransferStats $stats) {
             $this->lastUrl = $stats->getEffectiveUri();
         };
         if ($this->apiVersion) {
             $uri = $this->apiVersion . $uri;
         }
         try {
-            $this->requestData = $data;
             $this->response = $this->getHttpClient()->request($method, $uri, $data);
         } catch (ClientException $e) {
             $this->request  = $e->getRequest();
