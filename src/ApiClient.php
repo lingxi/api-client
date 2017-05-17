@@ -44,15 +44,19 @@ class ApiClient
      */
     protected $apiVersion;
     /**
-     * @var
+     * @var \GuzzleHttp\Psr7\Request
+     */
+    protected $request;
+    /**
+     * @var \GuzzleHttp\Psr7\Response
      */
     protected $response;
     /**
-     * @var
+     * @var int
      */
     protected $responseCode;
     /**
-     * @var
+     * @var array
      */
     protected $responseBody;
     /**
@@ -60,7 +64,7 @@ class ApiClient
      */
     protected $authenticator;
     /**
-     * @var null
+     * @var string
      */
     protected $lastUrl = '';
 
@@ -240,6 +244,13 @@ class ApiClient
     {
         return $this->response;
     }
+    /**
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
 
     /**
      * @return Client|ClientInterface
@@ -357,8 +368,10 @@ class ApiClient
         try {
             $this->response = $this->getHttpClient()->request($method, $uri, $data);
         } catch (ClientException $e) {
+            $this->request = $e->getRequest();
             $this->response = $e->getResponse();
         } catch (RequestException $e) {
+            $this->request = $e->getRequest();
             if ($e->hasResponse()) {
                 $this->response = $e->getResponse();
             }
