@@ -72,7 +72,7 @@ class ApiClient
      */
     protected $lastUrl      = '';
     /**
-     * @var int
+     * @var double
      */
     protected $transferTime = 0;
 
@@ -417,7 +417,7 @@ class ApiClient
     /**
      * 获取请求时间
      *
-     * @return int
+     * @return double
      */
     public function getTransferTime()
     {
