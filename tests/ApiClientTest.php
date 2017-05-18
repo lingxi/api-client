@@ -3,6 +3,7 @@
 namespace Lingxi\ApiClient\Test;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Lingxi\ApiClient\ApiClient;
 
@@ -54,6 +55,24 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Response::class, $this->apiClient->getResponse());
     }
 
+    public function testGetRequest()
+    {
+        $this->apiClient->get('/test/fun');
+        $this->assertInstanceOf(Request::class, $this->apiClient->getRequest());
+    }
+
+    public function testGetRequestData()
+    {
+        $this->apiClient->get('/test/fun');
+        $this->assertTrue(is_array($this->apiClient->getRequestData()));
+    }
+
+    public function testGetTransferTime()
+    {
+        $this->apiClient->get('/test/fun');
+        $this->assertTrue(is_numeric($this->apiClient->getTransferTime()));
+
+    }
     public function testGetHttpClient()
     {
         $this->apiClient->get('/test/fun');

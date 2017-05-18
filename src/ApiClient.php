@@ -70,7 +70,11 @@ class ApiClient
     /**
      * @var string
      */
-    protected $lastUrl = '';
+    protected $lastUrl      = '';
+    /**
+     * @var int
+     */
+    protected $transferTime = 0;
 
     /**
      * ApiClient constructor.
@@ -376,7 +380,9 @@ class ApiClient
         $data[$paramType]  = $this->getAuthParams($options);
         $this->requestData = $data;
         $data['on_stats']  = function (TransferStats $stats) {
-            $this->lastUrl = $stats->getEffectiveUri();
+            $this->lastUrl      = $stats->getEffectiveUri();
+            $this->request      = $stats->getRequest();
+            $this->transferTime = $stats->getTransferTime();
         };
         if ($this->apiVersion) {
             $uri = $this->apiVersion . $uri;
@@ -406,6 +412,16 @@ class ApiClient
     public function getLastUrl()
     {
         return (string)$this->lastUrl;
+    }
+
+    /**
+     * 获取请求时间
+     *
+     * @return int
+     */
+    public function getTransferTime()
+    {
+        return $this->transferTime;
     }
 
     /**

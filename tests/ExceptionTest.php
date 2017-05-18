@@ -22,4 +22,8 @@ class ExceptionTest extends \PHPUnit_Framework_TestCase
         $apiClient->get('/test/fun');
     }
 
+    public function test()
+    {
+        
+    }
 }

@@ -50,6 +50,10 @@ $apiClient->setBaseUri($apiOptions['base_uri'])
 ```
 #### 基本操作
 ```php
+// 获取 http 请求对象，返回 GuzzleHttp\Psr7\Request 实例
+$apiClient->get($uri, $query)->getRequest();
+// 获取请求的数据
+$apiClient->get($uri, $query)->getRequestData();
 // 获取 Http 响应对象。返回 GuzzleHttp\Psr7\Response 的实例
 $apiClient->get($uri, $query)->getResponse();
 // post 操作
@@ -68,6 +72,8 @@ $apiClient->get($uri, $query)->getResponseData();
 $apiClient->get($uri, $query)->getResponseCode();
 // 获取最后一次请求的 URL
 $apiClient->getLastUrl();
+// 获取请求传输时间
+$apiClient->getTransferTime();
 ```
 
 #### Getter
