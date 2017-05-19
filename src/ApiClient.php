@@ -6,10 +6,15 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\MessageFormatter;
+use GuzzleHttp\Middleware;
 use GuzzleHttp\TransferStats;
 use Lingxi\ApiClient\Exceptions\ApiClientInitException;
 use Lingxi\ApiClient\Exceptions\ResponseDataParseException;
 use Lingxi\Signature\Authenticator;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class ApiClient
@@ -70,11 +75,23 @@ class ApiClient
     /**
      * @var string
      */
-    protected $lastUrl      = '';
+    protected $lastUrl = '';
     /**
      * @var double
      */
     protected $transferTime = 0;
+    /**
+     * @var callable
+     */
+    protected $completeCallBack;
+    /**
+     * @var bool
+     */
+    protected $log = false;
+    /**
+     * @var $handlerStack
+     */
+    protected $handlerStack;
 
     /**
      * ApiClient constructor.
@@ -384,22 +401,32 @@ class ApiClient
             $this->request      = $stats->getRequest();
             $this->transferTime = $stats->getTransferTime();
         };
+        if ($this->log) {
+            $data['handler'] = $this->handlerStack;
+        }
         if ($this->apiVersion) {
             $uri = $this->apiVersion . $uri;
         }
-        try {
-            $this->response = $this->getHttpClient()->request($method, $uri, $data);
-        } catch (ClientException $e) {
-            $this->request  = $e->getRequest();
-            $this->response = $e->getResponse();
-        } catch (RequestException $e) {
-            $this->request = $e->getRequest();
-            if ($e->hasResponse()) {
-                $this->response = $e->getResponse();
+        $promise = $this->getHttpClient()->requestAsync($method, $uri, $data);
+        $promise->then(
+            function (ResponseInterface $response) {
+                $this->response = $response;
+                call_user_func($this->completeCallBack);
+            },
+            function ($e) {
+                if ($e instanceof ClientException) {
+                    $this->request  = $e->getRequest();
+                    $this->response = $e->getResponse();
+                } elseif ($e instanceof RequestException) {
+                    $this->request = $e->getRequest();
+                    if ($e->hasResponse()) {
+                        $this->response = $e->getResponse();
+                    }
+                }
+                throw $e;
             }
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        );
+        $promise->wait();
 
         return $this;
     }
@@ -422,6 +449,38 @@ class ApiClient
     public function getTransferTime()
     {
         return $this->transferTime;
+    }
+
+    /**
+     * 设置日志
+     *
+     * @param LoggerInterface $logger
+     * @param mixed           $format
+     */
+    public function setLogger(LoggerInterface $logger, $format = null)
+    {
+        $this->log          = true;
+        $this->handlerStack = HandlerStack::create();
+        if (is_array($format)) {
+            foreach ($format as $item) {
+                $this->handlerStack->unshift($this->createGuzzleLoggingMiddleware($logger, $item));
+            }
+        } else {
+            $this->handlerStack->push($this->createGuzzleLoggingMiddleware($logger, $format));
+        }
+    }
+
+    /**
+     * 创建一个日志中间件
+     *
+     * @param $logger
+     * @param $Format
+     *
+     * @return callable
+     */
+    private function createGuzzleLoggingMiddleware($logger, $Format)
+    {
+        return Middleware::log($logger, new MessageFormatter($Format));
     }
 
     /**
