@@ -4,7 +4,7 @@ namespace Lingxi\ApiClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\MessageFormatter;
@@ -414,7 +414,7 @@ class ApiClient
                 call_user_func($this->completeCallBack);
             },
             function ($e) {
-                if ($e instanceof ClientException) {
+                if ($e instanceof BadResponseException) {
                     $this->request  = $e->getRequest();
                     $this->response = $e->getResponse();
                 } elseif ($e instanceof RequestException) {
