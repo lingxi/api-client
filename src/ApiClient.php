@@ -389,16 +389,16 @@ class ApiClient
         $data    = [];
         $method  = strtoupper($method);
 
-        $paramType = $method === 'GET' ? RequestOptions::QUERY : RequestOptions::FORM_PARAMS;
+        $paramType = $method === 'POST' ? RequestOptions::FORM_PARAMS : RequestOptions::QUERY;
         if (key_exists(RequestOptions::JSON, $options)) {
             $json = $options[RequestOptions::JSON];
             unset($options[RequestOptions::JSON]);
             $data[RequestOptions::JSON] = $json;
             $paramType                  = RequestOptions::QUERY;
         }
-        $data[$paramType]  = $this->getAuthParams($options);
-        $this->requestData = $data;
-        $data[RequestOptions::ON_STATS]  = function (TransferStats $stats) {
+        $data[$paramType]               = $this->getAuthParams($options);
+        $this->requestData              = $data;
+        $data[RequestOptions::ON_STATS] = function (TransferStats $stats) {
             $this->lastUrl      = $stats->getEffectiveUri();
             $this->request      = $stats->getRequest();
             $this->transferTime = $stats->getTransferTime();
