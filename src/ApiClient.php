@@ -9,6 +9,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
+use GuzzleHttp\RequestOptions;
 use GuzzleHttp\TransferStats;
 use Lingxi\ApiClient\Exceptions\ApiClientInitException;
 use Lingxi\ApiClient\Exceptions\ResponseDataParseException;
@@ -383,20 +384,21 @@ class ApiClient
      */
     public function request($method, $uri, $optionals = [])
     {
-        $options   = $this->extractOptionalParameters($uri, $optionals);
-        $uri       = $this->compileRoute($uri, $optionals);
-        $data      = [];
-        $method    = strtoupper($method);
-        $paramType = $method === 'GET' ? 'query' : 'form_params';
-        if (key_exists('json', $options)) {
-            $json = $options['json'];
-            unset($options['json']);
-            $data['json'] = $json;
-            $paramType    = 'query';
+        $options = $this->extractOptionalParameters($uri, $optionals);
+        $uri     = $this->compileRoute($uri, $optionals);
+        $data    = [];
+        $method  = strtoupper($method);
+
+        $paramType = $method === 'GET' ? RequestOptions::QUERY : RequestOptions::FORM_PARAMS;
+        if (key_exists(RequestOptions::JSON, $options)) {
+            $json = $options[RequestOptions::JSON];
+            unset($options[RequestOptions::JSON]);
+            $data[RequestOptions::JSON] = $json;
+            $paramType                  = RequestOptions::QUERY;
         }
         $data[$paramType]  = $this->getAuthParams($options);
         $this->requestData = $data;
-        $data['on_stats']  = function (TransferStats $stats) {
+        $data[RequestOptions::ON_STATS]  = function (TransferStats $stats) {
             $this->lastUrl      = $stats->getEffectiveUri();
             $this->request      = $stats->getRequest();
             $this->transferTime = $stats->getTransferTime();
