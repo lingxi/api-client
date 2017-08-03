@@ -1,10 +1,10 @@
 # api-client
 灵析 Api 通用 Client，基于 guzzlehttp/guzzle 实现
 
-[![Build Status](https://travis-ci.org/LingxiTeam/api-client.svg?branch=master)](https://travis-ci.org/LingxiTeam/api-client)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/LingxiTeam/api-client/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/LingxiTeam/api-client/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/LingxiTeam/api-client/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/LingxiTeam/api-client/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/LingxiTeam/api-client/badges/build.png?b=master)](https://scrutinizer-ci.com/g/LingxiTeam/api-client/build-status/master)
+[![Build Status](https://travis-ci.org/lingxi/api-client.svg?branch=master)](https://travis-ci.org/lingxi/api-client)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lingxi/api-client/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lingxi/api-client/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/lingxi/api-client/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/lingxi/api-client/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/lingxi/api-client/badges/build.png?b=master)](https://scrutinizer-ci.com/g/lingxi/api-client/build-status/master)
 ### 安装
 
 composer.json 中添加
