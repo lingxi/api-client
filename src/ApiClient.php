@@ -50,11 +50,11 @@ class ApiClient
      */
     protected $apiVersion;
     /**
-     * @var \GuzzleHttp\Psr7\Request
+     * @var \Psr\Http\Message\RequestInterface
      */
     protected $request;
     /**
-     * @var \GuzzleHttp\Psr7\Response
+     * @var \Psr\Http\Message\ResponseInterface
      */
     protected $response;
     /**
