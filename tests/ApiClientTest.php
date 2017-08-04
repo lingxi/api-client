@@ -10,8 +10,8 @@ use Lingxi\ApiClient\ApiClient;
 class ApiClientTest extends \PHPUnit_Framework_TestCase
 {
     const API_BASE_URL = 'http://api.lingxi360.com';
-    const API_KEY      = 'pj5iHdpka';
-    const API_SECRET   = '7b8b1fe049494f78a555b3c7c6498b8b';
+    const API_KEY      = 'pj5iHdpk0';
+    const API_SECRET   = '6b8b1fe049494f78a555b3c7c6498b8b';
     protected $apiClient;
 
     protected function setUp()
@@ -73,6 +73,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_numeric($this->apiClient->getTransferTime()));
 
     }
+
     public function testGetHttpClient()
     {
         $this->apiClient->get('/test/fun');
