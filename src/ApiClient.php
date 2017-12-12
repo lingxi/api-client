@@ -256,7 +256,7 @@ class ApiClient
     }
 
     /**
-     * @return mixed
+     * @return array
      * @throws ResponseDataParseException
      */
     public function getResponseData()
@@ -273,7 +273,7 @@ class ApiClient
     }
 
     /**
-     * @return \GuzzleHttp\Psr7\Response
+     * @return \Psr\Http\Message\ResponseInterface \GuzzleHttp\Psr7\RequestInterface
      */
     public function getResponse()
     {
@@ -281,7 +281,7 @@ class ApiClient
     }
 
     /**
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \Psr\Http\Message\RequestInterface \GuzzleHttp\Psr7\Request
      */
     public function getRequest()
     {
@@ -399,7 +399,7 @@ class ApiClient
         $data[$paramType]               = $this->getAuthParams($options);
         $this->requestData              = $data;
         $data[RequestOptions::ON_STATS] = function (TransferStats $stats) {
-            $this->lastUrl      = $stats->getEffectiveUri();
+            $this->lastUrl      = (string) $stats->getEffectiveUri();
             $this->request      = $stats->getRequest();
             $this->transferTime = $stats->getTransferTime();
         };
