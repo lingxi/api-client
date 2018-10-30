@@ -413,7 +413,9 @@ class ApiClient
         $promise->then(
             function (ResponseInterface $response) {
                 $this->response = $response;
-                call_user_func($this->completeCallBack);
+                if ($this->completeCallBack) {
+                    call_user_func($this->completeCallBack);
+                }
             },
             function ($e) {
                 if ($e instanceof BadResponseException) {
