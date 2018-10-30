@@ -3,19 +3,19 @@
 namespace Lingxi\ApiClient;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\BadResponseException;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
-use GuzzleHttp\RequestOptions;
+use GuzzleHttp\HandlerStack;
+use Psr\Log\LoggerInterface;
 use GuzzleHttp\TransferStats;
-use Lingxi\ApiClient\Exceptions\ApiClientInitException;
-use Lingxi\ApiClient\Exceptions\ResponseDataParseException;
+use GuzzleHttp\RequestOptions;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\MessageFormatter;
 use Lingxi\Signature\Authenticator;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Log\LoggerInterface;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\BadResponseException;
+use Lingxi\ApiClient\Exceptions\ApiClientInitException;
+use Lingxi\ApiClient\Exceptions\ResponseDataParseException;
 
 /**
  * Class ApiClient
@@ -101,10 +101,10 @@ class ApiClient
      */
     public function __construct(array $options = [])
     {
-        $this->baseUri    = key_exists('base_uri', $options) ? $options['base_uri'] : '';
-        $this->outTime    = key_exists('time_out', $options) ? $options['time_out'] : 5.0;
-        $this->apiKey     = key_exists('api_key', $options) ? $options['api_key'] : '';
-        $this->apiSecret  = key_exists('api_secret', $options) ? $options['api_secret'] : '';
+        $this->baseUri = key_exists('base_uri', $options) ? $options['base_uri'] : '';
+        $this->outTime = key_exists('time_out', $options) ? $options['time_out'] : 5.0;
+        $this->apiKey = key_exists('api_key', $options) ? $options['api_key'] : '';
+        $this->apiSecret = key_exists('api_secret', $options) ? $options['api_secret'] : '';
         $this->apiVersion = key_exists('api_version', $options) ? $options['api_version'] : 'v1';
     }
 
@@ -142,7 +142,7 @@ class ApiClient
      */
     public function setCustomer($apiKey, $apiSecret)
     {
-        $this->apiKey    = $apiKey;
+        $this->apiKey = $apiKey;
         $this->apiSecret = $apiSecret;
 
         return $this;
@@ -261,7 +261,7 @@ class ApiClient
      */
     public function getResponseData()
     {
-        $responseBody = (string)$this->getResponse()->getBody();
+        $responseBody = (string) $this->getResponse()->getBody();
 
         $this->responseBody = json_decode($responseBody, true);
 
@@ -385,22 +385,22 @@ class ApiClient
     public function request($method, $uri, $optionals = [])
     {
         $options = $this->extractOptionalParameters($uri, $optionals);
-        $uri     = $this->compileRoute($uri, $optionals);
-        $data    = [];
-        $method  = strtoupper($method);
+        $uri = $this->compileRoute($uri, $optionals);
+        $data = [];
+        $method = strtoupper($method);
 
         $paramType = $method === 'POST' ? RequestOptions::FORM_PARAMS : RequestOptions::QUERY;
         if (key_exists(RequestOptions::JSON, $options)) {
             $json = $options[RequestOptions::JSON];
             unset($options[RequestOptions::JSON]);
             $data[RequestOptions::JSON] = $json;
-            $paramType                  = RequestOptions::QUERY;
+            $paramType = RequestOptions::QUERY;
         }
-        $data[$paramType]               = $this->getAuthParams($options);
-        $this->requestData              = $data;
+        $data[$paramType] = $this->getAuthParams($options);
+        $this->requestData = $data;
         $data[RequestOptions::ON_STATS] = function (TransferStats $stats) {
-            $this->lastUrl      = (string) $stats->getEffectiveUri();
-            $this->request      = $stats->getRequest();
+            $this->lastUrl = (string) $stats->getEffectiveUri();
+            $this->request = $stats->getRequest();
             $this->transferTime = $stats->getTransferTime();
         };
         if ($this->log) {
@@ -419,7 +419,7 @@ class ApiClient
             },
             function ($e) {
                 if ($e instanceof BadResponseException) {
-                    $this->request  = $e->getRequest();
+                    $this->request = $e->getRequest();
                     $this->response = $e->getResponse();
                 } elseif ($e instanceof RequestException) {
                     $this->request = $e->getRequest();
@@ -442,7 +442,7 @@ class ApiClient
      */
     public function getLastUrl()
     {
-        return (string)$this->lastUrl;
+        return (string) $this->lastUrl;
     }
 
     /**
@@ -463,7 +463,7 @@ class ApiClient
      */
     public function setLogger(LoggerInterface $logger, $format = null)
     {
-        $this->log          = true;
+        $this->log = true;
         $this->handlerStack = HandlerStack::create();
         if (is_array($format)) {
             foreach ($format as $item) {
@@ -500,7 +500,7 @@ class ApiClient
             if (is_array($item)) {
                 return $this->standardizeParam($item);
             } else {
-                return (string)$item;
+                return (string) $item;
             }
         }, $param);
     }
