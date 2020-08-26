@@ -262,7 +262,11 @@ class ApiClient
     public function getResponseData()
     {
         $responseBody = (string) $this->getResponse()->getBody();
-
+        if (trim($responseBody) === '') {
+            $this->responseBody = [];
+            return $this->responseBody;
+        }
+        
         $this->responseBody = json_decode($responseBody, true);
 
         if (JSON_ERROR_NONE !== json_last_error()) {
