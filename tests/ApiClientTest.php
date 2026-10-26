@@ -10,8 +10,8 @@ use Lingxi\ApiClient\ApiClient;
 class ApiClientTest extends \PHPUnit_Framework_TestCase
 {
     const API_BASE_URL = 'http://api.lingxi360.com';
-    const API_KEY      = 'pj5iHdpk0';
-    const API_SECRET   = '6b8b1fe049494f78a555b3c7c6498b8b';
+    const API_KEY      = 'yourapikey';
+    const API_SECRET   = 'yourapisecret';
     protected $apiClient;
 
     protected function setUp()
